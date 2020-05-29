@@ -1,0 +1,14 @@
+{
+  "name": "manage-working-time",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/TuanLamUet/work-time-management.git",
+  "author": "Lâm Tuấn <tupikano1@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
