@@ -1,6 +1,7 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Unique } from 'typeorm';
 
 @Entity()
+@Unique(['email'])
 export class Users extends BaseEntity {
 
   @PrimaryGeneratedColumn()
@@ -17,10 +18,4 @@ export class Users extends BaseEntity {
 
   @CreateDateColumn({ type: 'timestamp'})
   create_at: Date;
-
-  @UpdateDateColumn()
-  update_at: Date;
-
-  @DeleteDateColumn()
-  delete_at: Date;
 }
