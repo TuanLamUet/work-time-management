@@ -1,5 +1,6 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, Unique } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, Unique, UpdateDateColumn } from 'typeorm';
 import { IsEmail, IsString, MinLength } from 'class-validator';
+import * as bcrypt from 'bcryptjs';
 
 @Entity()
 @Unique(['email'])
@@ -23,4 +24,11 @@ export class Users extends BaseEntity {
 
   @CreateDateColumn({ type: 'timestamp'})
   create_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp'})
+  update_at: Date;
+  
+  async validateUserPassword(password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this.password)
+  }
 }
