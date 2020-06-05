@@ -1,14 +1,14 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsString, MinLength, IsEmail, IsIn } from 'class-validator';
 
 export class UsersDto {
-
-  @IsString()
-  email: string
+  @IsEmail()
+  email: string;
 
   @IsString()
   @MinLength(8, { message: 'Password must contain at least 8 characters' })
-  password: string
+  password: string;
 
   @IsString()
-  role: string
+  @IsIn(['staff', 'admin'])
+  role: string;
 }

@@ -1,10 +1,16 @@
+import { Repository } from 'typeorm';
 import { UsersDto } from './users.dto';
-import { Injectable, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, Inject } from '@nestjs/common';
 import { Users } from './users.entity';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
+
+  constructor(
+    @Inject('USERS_REPOSITORY')
+    private usersRepository: Repository<Users>,
+  ) {}
 
   async createUser(usersDto: UsersDto) {
    try {
@@ -23,6 +29,15 @@ export class UsersService {
       } else {
         throw new InternalServerErrorException()
       }
+    }
+  }
+
+  async getAllUsers() {
+    try {
+      const listUsers = await this.usersRepository.find({select: ["id", "email", "role"]})
+      return listUsers;
+    } catch (error) {
+      throw new InternalServerErrorException()
     }
   }
   
