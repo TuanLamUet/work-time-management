@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { LogsUserModule } from './logs-user/logs-user.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     UsersModule,
     AuthModule,
-    ProfileModule
+    ProfileModule,
+    LogsUserModule
   ],
   controllers: [AppController],
   providers: [AppService],

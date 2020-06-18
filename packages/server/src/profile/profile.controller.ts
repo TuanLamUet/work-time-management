@@ -10,8 +10,6 @@ import {
   Get,
   UseInterceptors,
   UploadedFile,
-  Param,
-  Res,
   Post,
   Delete,
 } from '@nestjs/common';
@@ -44,7 +42,7 @@ export class ProfileController {
   updateProfile(@User() user, @Body() profileDto: ProfileDto) {
     return this.profileService.updateProfile(user, profileDto)
   }
-  
+
   //create new position by admin
   @Put('/admin/position')
   createNewPosition(@Body('name') positionName: string) {

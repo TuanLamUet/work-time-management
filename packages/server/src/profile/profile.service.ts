@@ -47,20 +47,35 @@ export class ProfileService {
         },
       });
       if (profile) {
-        await this.profileRepository.update(profile, {
-          firstName,
-          lastName,
-          gender,
-          dob,
-        });
+        if (firstName) {
+          await this.profileRepository.update(user.id, {
+            firstName,
+          });
+        }
+        if (lastName) {
+          await this.profileRepository.update(user.id, {
+            lastName,
+          });
+        }
+        if (gender) {
+          await this.profileRepository.update(user.id, {
+            gender,
+          });
+        }
+        if (dob) {
+          await this.profileRepository.update(user.id, {
+            dob,
+          });
+        } 
       }
 
       return {
         status: 201,
         message: 'profile updated',
+        profile: profile
       };
     } catch (error) {
-      throw new InternalServerErrorException();
+      console.log(error);
     }
   }
 
@@ -118,17 +133,18 @@ export class ProfileService {
       where: {
         user: user.id,
       },
-      relations: ['positions']
+      relations: ['positions'],
     });
 
-    if(profile) {
-      profile.positions = profile.positions.filter( position => position.name !== positionName )
+    if (profile) {
+      profile.positions = profile.positions.filter(
+        position => position.name !== positionName,
+      );
       await profile.save();
       return {
         message: 'remove position success',
       };
     }
-
   }
 
   async getProfile(user: Users) {
@@ -137,7 +153,7 @@ export class ProfileService {
         where: {
           user: user.id,
         },
-        relations: ["positions"]
+        relations: ['positions'],
       });
       return profile;
     } catch (error) {
