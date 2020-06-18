@@ -29,7 +29,7 @@ export class UsersService {
       await user.save();
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
-        //duplicate account
+        // duplicate account
         throw new ConflictException('User already exists');
       } else {
         throw new InternalServerErrorException();
