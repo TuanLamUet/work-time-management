@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { LogsUserModule } from './logs-user/logs-user.module';
+import { LeaveRequestsModule } from './leave-requests/leave-requests.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { LogsUserModule } from './logs-user/logs-user.module';
     UsersModule,
     AuthModule,
     ProfileModule,
-    LogsUserModule
+    LogsUserModule,
+    LeaveRequestsModule
   ],
   controllers: [AppController],
   providers: [AppService],

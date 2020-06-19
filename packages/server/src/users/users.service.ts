@@ -27,6 +27,9 @@ export class UsersService {
       user.password = await this.hashPassword(password, salt);
       user.role = role;
       await user.save();
+      return {
+        message: 'create user success'
+      }
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
         // duplicate account

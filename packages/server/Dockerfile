@@ -1,29 +1,9 @@
-FROM node:12.16.2-alpine as development
-
-WORKDIR /usr/src/app
-
-COPY package.json ./
-
-RUN yarn install
-
-COPY . .
-
-RUN yarn run build
-
-FROM node:12.16.2-alpine as production
-
-ARG NODE_ENV=production
-
-ENV NODE_ENV=${NODE_ENV}
+FROM node:12.13-alpine
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install --only=production
+RUN yarn install
 
 COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD [ "node", "dist/main" ]

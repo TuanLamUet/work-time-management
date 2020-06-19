@@ -1,3 +1,4 @@
+import { LeaveRequests } from '../leave-requests/leave-request.entity';
 import {
   Entity,
   BaseEntity,
@@ -39,7 +40,8 @@ export class Users extends BaseEntity {
   @OneToMany(type => LogsUser, log => log.user)
   logs: LogsUser[]
 
-  
+  @OneToMany(type => LeaveRequests, request => request.user)
+  requests: LeaveRequests[]
   async validateUserPassword(password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);
   }
