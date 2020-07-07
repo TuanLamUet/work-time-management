@@ -42,6 +42,7 @@ export class Users extends BaseEntity {
 
   @OneToMany(type => LeaveRequests, request => request.user)
   requests: LeaveRequests[]
+  
   async validateUserPassword(password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);
   }

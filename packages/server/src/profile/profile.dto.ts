@@ -1,4 +1,10 @@
-import { IsString, IsIn, MinLength, MaxLength, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsIn,
+  MinLength,
+  MaxLength,
+  IsOptional,
+} from 'class-validator';
 
 export class ProfileDto {
   @IsString()

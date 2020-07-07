@@ -8,6 +8,7 @@ import {
 import { Repository } from 'typeorm';
 import { ProfileDto } from './profile.dto';
 import { Users } from 'src/users/users.entity';
+import { plainToClassFromExist } from 'class-transformer';
 
 @Injectable()
 export class ProfileService {
@@ -33,49 +34,25 @@ export class ProfileService {
         message: 'Profile created',
       };
     } catch (error) {
-      throw new InternalServerErrorException()
+      throw new InternalServerErrorException();
     }
   }
 
   //update profile
-  async updateProfile(user: Users, profileDto: ProfileDto) {
-    const { firstName, lastName, gender, dob } = profileDto;
+  async updateProfile(user: Users, profileDto: ProfileDto): Promise<Profile> {
     try {
-      const profile = await this.profileRepository.findOne({
+      const currentProfile = await this.profileRepository.findOne({
         where: {
           user: user.id,
         },
       });
-      if (profile) {
-        if (firstName) {
-          await this.profileRepository.update(user.id, {
-            firstName,
-          });
-        }
-        if (lastName) {
-          await this.profileRepository.update(user.id, {
-            lastName,
-          });
-        }
-        if (gender) {
-          await this.profileRepository.update(user.id, {
-            gender,
-          });
-        }
-        if (dob) {
-          await this.profileRepository.update(user.id, {
-            dob,
-          });
-        } 
-      }
-
-      return {
-        status: 201,
-        message: 'profile updated',
-        profile: profile
-      };
+      const profile = plainToClassFromExist(currentProfile, profileDto, {
+        groups: ['firstName', 'lastName', 'gender', 'dob'],
+      });
+      await this.profileRepository.save(profile);
+      return profile;
     } catch (error) {
-      throw new InternalServerErrorException()
+      throw new InternalServerErrorException();
     }
   }
 

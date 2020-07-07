@@ -3,13 +3,20 @@ services:
   main:
     build:
       context: .
-    command: yarn start:dev
+    command: yarn start:dev && redis-server
     ports: 
       - 4001:5000
     networks:
       - backend
     depends_on:
       - mysql
+      - redis
+
+  redis:
+    container_name: redis
+    image: redis:5
+    networks:
+      - backend
 
   mysql:
     image: mysql:latest
@@ -24,8 +31,8 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-    ports:
-      - '3306:3306'
+    ports: 
+      - 3306:3306
     volumes:
       - data:/var/lib/mysql
     networks:

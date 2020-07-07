@@ -24,7 +24,7 @@ export class UsersService {
 
       const user = new Users();
       user.email = email;
-      user.password = await this.hashPassword(password, salt);
+      user.password = await bcrypt.hash(password, salt);
       user.role = role;
       await user.save();
       return {
@@ -51,7 +51,4 @@ export class UsersService {
     }
   }
 
-  private async hashPassword(password: string, salt: string): Promise<string> {
-    return bcrypt.hash(password, salt);
-  }
 }

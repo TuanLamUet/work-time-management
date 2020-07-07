@@ -20,6 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.5.1",
+    "@nestjs/cli": "^7.4.1",
     "@nestjs/common": "*",
     "@nestjs/config": "^0.5.0",
     "@nestjs/core": "*",
@@ -30,16 +32,24 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "connect-redis": "^4.0.4",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "global": "^4.4.0",
+    "ioredis": "^4.17.3",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.4.10",
     "nodemon": "^2.0.4",
+    "npm": "^6.14.5",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.2.25",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@nestjs/cli": "*",
