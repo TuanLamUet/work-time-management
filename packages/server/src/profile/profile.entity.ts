@@ -36,10 +36,12 @@ export class Profile extends BaseEntity {
   @IsDate()
   dob: Date;
 
-  @Column({ default: 'uploads/defaultAvatar.png'})
-  avatar: string ;
+  @Column({
+    default:
+      'https://st3.depositphotos.com/1767687/16607/v/450/depositphotos_166074422-stock-illustration-default-avatar-profile-icon-grey.jpg',
+  })
+  avatar: string;
 
-  
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
@@ -53,5 +55,4 @@ export class Profile extends BaseEntity {
   @ManyToMany(type => Positions)
   @JoinTable()
   positions: Positions[];
-
 }

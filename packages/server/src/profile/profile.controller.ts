@@ -31,34 +31,37 @@ export class ProfileController {
   }
 
   // create profile user
-  @Post()
-  @UsePipes(ValidationPipe)
-  createProfile(@User() user, @Body() profileDto: ProfileDto) {
-    return this.profileService.createProfile(user, profileDto);
-  }
-  
+  // @Post()
+  // @UsePipes(ValidationPipe)
+  // createProfile(@User() user, @Body() profileDto: ProfileDto) {
+  //   return this.profileService.createProfile(user, profileDto);
+  // }
+
   @Put()
   @UsePipes(ValidationPipe)
   updateProfile(@User() user, @Body() profileDto: ProfileDto) {
-    return this.profileService.updateProfile(user, profileDto)
+    return this.profileService.updateProfile(user, profileDto);
   }
 
   // create new position by admin
   @Put('/admin/position')
   createNewPosition(@Body('name') positionName: string) {
-    return this.profileService.createNewPosition(positionName)
+    return this.profileService.createNewPosition(positionName);
   }
-  
+
   // add new position to profile user
   @Post('/position')
-  addPositionToProfile(@User() user, @Body('positionName') positionsName: string) {
-    return this.profileService.addPositionToProfile(user, positionsName)
+  addPositionToProfile(
+    @User() user,
+    @Body('positionName') positionsName: string,
+  ) {
+    return this.profileService.addPositionToProfile(user, positionsName);
   }
 
   // delete a position
   @Delete('/position')
   deleteAPosition(@User() user, @Body('positionName') positionName: string) {
-    return this.profileService.deleteAPosition(user, positionName)
+    return this.profileService.deleteAPosition(user, positionName);
   }
 
   @Put('/upload')
@@ -68,12 +71,9 @@ export class ProfileController {
         destination: './uploads',
       }),
       fileFilter: imageFileFilter,
-
     }),
   )
   uploadFile(@User() user, @UploadedFile() file) {
-   
     return this.profileService.uploadAvatar(user, file);
   }
-
 }

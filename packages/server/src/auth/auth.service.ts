@@ -24,7 +24,11 @@ export class AuthService {
 
   async signIn(authCredentials: AuthCredentialsDto): Promise<{ accessToken }> {
     try {
-      const { email, password } = authCredentials;
+      interface LoginSuccess {
+        accessToken: string;
+        user: object;
+      }
+      const { email, password, remember } = authCredentials;
       const user = await this.usersRepository.findOne({ email });
       if (!user) {
         throw new UnauthorizedException('invalid credentials');
@@ -34,14 +38,23 @@ export class AuthService {
         throw new UnauthorizedException('invalid credentials');
       }
       const payload: JwtPayload = { email: user.email, role: user.role };
-      const accessToken = this.jwtService.sign(payload);
+
+      let accessToken;
+      if (remember) {
+        accessToken = this.jwtService.sign(payload, { expiresIn: '999y' });
+      } else {
+        accessToken = this.jwtService.sign(payload);
+      }
 
       if (user && validPassword) {
-        return { accessToken };
+        const loginSuccess: LoginSuccess = {
+          accessToken,
+          user,
+        };
+        return loginSuccess;
       }
     } catch (error) {
-      console.log(error)
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -65,7 +78,7 @@ export class AuthService {
         };
       }
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -91,7 +104,7 @@ export class AuthService {
         user.save();
         return user;
       } catch (error) {
-        console.log(error);
+        throw new InternalServerErrorException(error);
       }
     }
   }

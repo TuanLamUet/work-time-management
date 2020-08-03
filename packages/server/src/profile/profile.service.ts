@@ -19,40 +19,44 @@ export class ProfileService {
     private positionsRepository: Repository<Positions>,
   ) {}
 
-  async createProfile(user: Users, profileDto: ProfileDto) {
-    const { firstName, lastName, gender, dob } = profileDto;
-    try {
-      const profile = new Profile();
+  // async createProfile(user: Users, profileDto: ProfileDto) {
+  //   const { firstName, lastName, gender, dob } = profileDto;
+  //   try {
+  //     const profile = new Profile();
 
-      profile.firstName = firstName;
-      profile.lastName = lastName;
-      profile.gender = gender;
-      profile.dob = dob;
-      profile.user = user;
-      await this.profileRepository.save(profile);
-      return {
-        message: 'Profile created',
-      };
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
-  }
+  //     profile.firstName = firstName;
+  //     profile.lastName = lastName;
+  //     profile.gender = gender;
+  //     profile.dob = dob;
+  //     profile.user = user;
+  //     await this.profileRepository.save(profile);
+  //     return {
+  //       message: 'Profile created',
+  //     };
+  //   } catch (error) {
+  //     throw new InternalServerErrorException();
+  //   }
+  // }
 
   //update profile
   async updateProfile(user: Users, profileDto: ProfileDto): Promise<Profile> {
     try {
-      const currentProfile = await this.profileRepository.findOne({
+      let currentProfile = await this.profileRepository.findOne({
         where: {
           user: user.id,
         },
       });
+      if (!currentProfile) {
+        currentProfile = new Profile();
+        currentProfile.user = user;
+      }
       const profile = plainToClassFromExist(currentProfile, profileDto, {
         groups: ['firstName', 'lastName', 'gender', 'dob'],
       });
       await this.profileRepository.save(profile);
       return profile;
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -130,11 +134,10 @@ export class ProfileService {
         where: {
           user: user.id,
         },
-        relations: ['positions'],
       });
       return profile;
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -154,7 +157,7 @@ export class ProfileService {
         };
       }
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 }

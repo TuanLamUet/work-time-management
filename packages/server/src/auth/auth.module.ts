@@ -13,7 +13,7 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.register({
       secret: 'hellowa',
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: '1d',
       },
     }),
     DatabaseModule,

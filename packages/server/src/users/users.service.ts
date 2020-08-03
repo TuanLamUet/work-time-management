@@ -28,14 +28,14 @@ export class UsersService {
       user.role = role;
       await user.save();
       return {
-        message: 'create user success'
-      }
+        message: 'create user success',
+      };
     } catch (error) {
       if (error.code === 'ER_DUP_ENTRY') {
         // duplicate account
         throw new ConflictException('User already exists');
       } else {
-        throw new InternalServerErrorException();
+        throw new InternalServerErrorException(error);
       }
     }
   }
@@ -47,7 +47,7 @@ export class UsersService {
       });
       return listUsers;
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 

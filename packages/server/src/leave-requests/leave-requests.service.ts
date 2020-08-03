@@ -51,7 +51,7 @@ export class LeaveRequestsService {
       await request.save();
       return { request };
     } catch (error) {
-      throw new InternalServerErrorException()
+      throw new InternalServerErrorException(error)
     }
   }
 

@@ -28,7 +28,6 @@ export class Users extends BaseEntity {
   password: string;
 
   @Column({ default: 'staff' })
-  @IsString()
   role: string;
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -37,12 +36,18 @@ export class Users extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @OneToMany(type => LogsUser, log => log.user)
-  logs: LogsUser[]
+  @OneToMany(
+    type => LogsUser,
+    log => log.user,
+  )
+  logs: LogsUser[];
 
-  @OneToMany(type => LeaveRequests, request => request.user)
-  requests: LeaveRequests[]
-  
+  @OneToMany(
+    type => LeaveRequests,
+    request => request.user,
+  )
+  requests: LeaveRequests[];
+
   async validateUserPassword(password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);
   }
